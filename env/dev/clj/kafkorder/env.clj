@@ -1,7 +1,7 @@
 (ns kafkorder.env
   (:require
-    [selmer.parser :as parser]
-    [clojure.tools.logging :as log]))
+   [selmer.parser :as parser]
+   [clojure.tools.logging :as log]))
 
 (def defaults
   {:init
@@ -10,4 +10,4 @@
      (log/info "\n-=[kafkorder started successfully using the development profile]=-"))
    :stop
    (fn []
-     (log/info "\n-=[kafkorder has shut down successfully]=-")))
+     (log/info "\n-=[kafkorder has shut down successfully]=-"))})
