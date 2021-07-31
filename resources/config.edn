@@ -1,4 +1,5 @@
 {:kafka
  {:bootstrap.servers "localhost:9092"
   :group.id "kafkorder"
-  :auto.offset.reset "earliest"}}
+  :auto.offset.reset "earliest"
+  :enable.auto.commit false}}

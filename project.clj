@@ -2,10 +2,8 @@
 
   :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.10.0"]
-                 [clojure.java-time "0.3.2"]
                  [cprop "0.1.17"]
                  [expound "0.8.9"]
-                 [mount "0.1.16"]
                  [org.clojure/clojure "1.10.3"]
                  [org.clojure/tools.cli "1.0.206"]
                  [org.clojure/tools.logging "1.1.0"]

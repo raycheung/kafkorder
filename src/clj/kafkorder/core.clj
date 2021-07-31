@@ -1,10 +1,10 @@
 (ns kafkorder.core
   (:require
-   [kafkorder.config :refer [env]]
-   [kafkorder.action]
+   [kafkorder.action :as action]
    [clojure.tools.cli :refer [parse-opts]]
-   [clojure.tools.logging :as log]
-   [mount.core :as mount])
+   [cprop.core :refer [load-config]]
+   [cprop.source :refer [from-env]]
+   [clojure.tools.logging :as log])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
@@ -16,22 +16,21 @@
                  :where (str "Uncaught exception on" (.getName thread))}))))
 
 (def cli-options
-  [;["-p" "--port PORT" "Port number"
-   ; :parse-fn #(Integer/parseInt %)]
-   ])
-
-(defn stop-app []
-  (doseq [component (:stopped (mount/stop))]
-    (log/info component "stopped"))
-  (shutdown-agents))
-
-(defn start-app [args]
-  (doseq [component (-> args
-                        (parse-opts cli-options)
-                        mount/start-with-args
-                        :started)]
-    (log/info component "started"))
-  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
+  [["-d" "--dump" "DUMP mode"]
+   ["-r" "--replay" "REPLAY mode"]
+   ["-t" "--topic TOPIC"]
+   ["-c" "--count NUM" "Number of messages to dump"
+    :parse-fn #(Integer/parseInt %)]
+   ["-f" "--file FILE" "File"]])
 
 (defn -main [& args]
-  (start-app args))
+  (let [env (load-config
+             :merge
+             [(:options (parse-opts args cli-options))
+              (from-env)])]
+    (cond
+      (:dump env)
+      (action/dump (env :kafka) (env :topic) (env :file) (env :count))
+
+      (:replay env)
+      (action/replay (env :kafka) (env :topic) (env :file)))))
