@@ -2,6 +2,7 @@
   (:require
    [kafkorder.nrepl :as nrepl]
    [kafkorder.config :refer [env]]
+   [kafkorder.action]
    [clojure.tools.cli :refer [parse-opts]]
    [clojure.tools.logging :as log]
    [mount.core :as mount])

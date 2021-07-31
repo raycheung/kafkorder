@@ -1,4 +1,4 @@
-{:kafka/config
+{:kafka
  {:bootstrap.servers "localhost:9092"
   :group.id "kafkorder"
   :auto.offset.reset "earliest"}}
